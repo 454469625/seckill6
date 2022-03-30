@@ -1,0 +1,162 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>登录</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+    <!-- jquery -->
+    <script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+    <!-- bootstrap -->
+    <link rel="stylesheet" type="text/css" th:href="@{/bootstrap/css/bootstrap.min.css}"/>
+    <script type="text/javascript" th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
+    <!-- jquery-validator -->
+    <script type="text/javascript" th:src="@{/jquery-validation/jquery.validate.min.js}"></script>
+    <script type="text/javascript" th:src="@{/jquery-validation/localization/messages_zh.min.js}"></script>
+    <!-- layer -->
+    <script type="text/javascript" th:src="@{/layer/layer.js}"></script>
+    <!-- md5.js -->
+    <script type="text/javascript" th:src="@{/js/md5.min.js}"></script>
+    <!-- common.js -->
+    <script type="text/javascript" th:src="@{/js/common.js}"></script>
+
+</head>
+<body>
+
+
+<form name="loginForm" id="loginForm" enctype="multipart/form-data" method="post" style="width:50%; margin:0 auto">
+    <!-- 设置样式 宽度为屏幕的50%，位置为居中 -->
+
+    <h2 style="text-align:center; margin-bottom: 20px">用户登录</h2>
+
+    <div class="form-group">
+        <div class="row">
+            <label class="form-label col-md-4">请输入商品名称</label>
+            <div class="col-md-5">
+                <input id="goodsName" name="goodsName" class="form-control" type="text" placeholder="商品名称"
+                       required="true" minlength="2" maxlength="11"/>
+            </div>
+            <div class="col-md-1">
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="row">
+            <label class="form-label col-md-4">请输入商品标题</label>
+            <div class="col-md-5">
+                <input id="goodsTitle" name="goodsTitle" class="form-control" type="text" placeholder="商品标题"
+                       required="true" minlength="2" maxlength="11"/>
+            </div>
+            <div class="col-md-1">
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="row">
+            <label class="form-label col-md-4">请存入库存数</label>
+            <div class="col-md-5">
+                <input id="stock" name="stock" class="form-control" type="text" placeholder="库存数" required="true"/>
+            </div>
+            <div class="col-md-1">
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="row">
+            <label class="form-label col-md-4">请输入开始时间</label>
+            <div class="col-md-5">
+                <input id="startDate" name="startDate" class="form-control" type="text" placeholder="开始时间"
+                       required="true" minlength="4" maxlength="16"/>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="row">
+            <label class="form-label col-md-4">请输入结束时间</label>
+            <div class="col-md-5">
+                <input id="endDate" name="endDate" class="form-control" type="text" placeholder="结束时间" required="true"
+                       minlength="4" maxlength="16"/>
+            </div>
+        </div>
+    </div>
+<!--    <div class="form-group">-->
+<!--        <div class="row">-->
+<!--            <label class="form-label col-md-4">商品图片</label>-->
+<!--            <div class="col-md-5">-->
+<!--                <input id="uploadFile" name="uploadFile" class="form-control" type="file" />-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+
+    <div class="row">
+        <div class="col-md-5">
+            <button class="btn btn-primary btn-block" type="submit" onclick="save()">保存</button>
+        </div>
+    </div>
+
+</form>
+
+<!--<div th:if="${message}">-->
+<!--    <h2 th:text="${message}"/>-->
+<!--</div>-->
+
+<!--<div>-->
+<!--    <form method="POST" enctype="multipart/form-data" action="/uploadPic"> &lt;!&ndash;这里可以限制文件后缀&ndash;&gt;-->
+<!--        <table>-->
+<!--            <tr><td>File to upload:</td><td><input type="file" name="file" /></td></tr>-->
+<!--            <tr><td></td><td><input type="submit" value="保存" /></td></tr>-->
+<!--        </table>-->
+<!--    </form>-->
+<!--</div>-->
+
+<!--<div>-->
+<!--    此处展示上传后的图片：<img th:src="@{/img/{name}(name=${picName})}"/>-->
+<!--</div>-->
+</body>
+
+
+<script>
+
+    function save() {
+        $("#loginForm").validate({
+            submitHandler: function (form) {
+                doSave();
+            }
+        });
+    }
+
+
+    function doSave() {
+        g_showLoading();
+        // var files = $('#uploadFile').prop('files');
+        var data = new FormData();
+        data.append('goodsName', $("#goodsName"));
+        data.append('goodsTitle', $("#goodsTitle"));
+        data.append('startDate', $("#startDate"));
+        data.append('endDate', $("#endDate"));
+        // data.append('uploadFile', files[0]);
+
+        $.ajax({
+            url: "/goods/insert",
+            type: "POST",
+            data: data,
+            success: function (data) {
+                layer.closeAll();
+                // console.log(data);
+                if (data.code == 0) {		//服务端Result类中定义的code
+                    layer.msg("成功");	//会在屏幕上弹出一个短暂的提示信息，并自动消失
+                    window.location.href = "/index";	//登录成功后的跳转在这里实现
+                } else {
+                    layer.msg(data.msg);	//服务端Result类中定义的msg
+                }
+            },
+            error: function () {
+                layer.closeAll();
+            }
+        });
+    }
+</script>
+</html>

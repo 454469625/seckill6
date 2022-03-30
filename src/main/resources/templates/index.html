@@ -1,0 +1,96 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>注册</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+    <!-- jquery -->
+    <script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+    <!-- bootstrap -->
+    <link rel="stylesheet" type="text/css" th:href="@{/bootstrap/css/bootstrap.min.css}"/>
+    <script type="text/javascript" th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
+    <!-- jquery-validator -->
+    <script type="text/javascript" th:src="@{/jquery-validation/jquery.validate.min.js}"></script>
+    <script type="text/javascript" th:src="@{/jquery-validation/localization/messages_zh.min.js}"></script>
+    <!-- layer -->
+    <script type="text/javascript" th:src="@{/layer/layer.js}"></script>
+    <!-- md5.js -->
+    <script type="text/javascript" th:src="@{/js/md5.min.js}"></script>
+    <!-- common.js -->
+    <script type="text/javascript" th:src="@{/js/common.js}"></script>
+
+</head>
+<body>
+<form name="loginForm" id="loginForm" method="post" style="width:50%; margin:0 auto">
+    <h2 style="text-align:center; margin-bottom: 20px">首页</h2>
+
+    <div class="row">
+        <div class="col-md-5">
+            <button class="btn btn-primary btn-block" type="submit" onclick="toLogin()" >登录</button>
+        </div>
+        <div class="col-md-5">
+            <button class="btn btn-primary btn-block" type="submit" onclick="toRegister()" >注册</button>
+        </div>
+    </div>
+</form>
+</body>
+<script>
+
+    function toRegister() {
+//        加载中
+        g_showLoading();
+
+        var salt = g_passsword_salt;
+        var str = "" + salt.charAt(0) + salt.charAt(2) + salt.charAt(5) + salt.charAt(4);
+
+        $.ajax({
+            url: "/register/to_register",
+            type: "POST",
+            data: {
+                password: str
+            },
+            success: function (data) {
+                layer.closeAll();
+                if (data.code == 0) {
+                    layer.msg("成功");
+                    window.location.href = "/register/to_register2";
+                } else {
+                    layer.msg(data.msg);
+                }
+            },
+            error: function () {
+                layer.closeAll();
+            }
+        });
+    }
+
+
+    function toLogin() {
+//        加载中
+        g_showLoading();
+
+        var salt = g_passsword_salt;
+        var str = "" + salt.charAt(0) + salt.charAt(2) + salt.charAt(5) + salt.charAt(4);
+
+        $.ajax({
+            url: "/login/to_login",
+            type: "POST",
+            data: {
+                password: str
+            },
+            success: function (data) {
+                layer.closeAll();
+                if (data.code == 0) {
+                    layer.msg("成功");
+                    window.location.href = "/login/login2";
+                } else {
+                    layer.msg(data.msg);
+                }
+            },
+            error: function () {
+                layer.closeAll();
+            }
+        });
+    }
+</script>
+</html>
