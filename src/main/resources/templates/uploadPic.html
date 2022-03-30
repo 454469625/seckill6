@@ -23,7 +23,7 @@
 <body>
 
 
-<form name="loginForm" id="loginForm" enctype="multipart/form-data" method="post" style="width:50%; margin:0 auto">
+<form name="loginForm" id="loginForm" method="post" enctype="multipart/form-data"  action="/goods/insert" style="width:50%; margin:0 auto">
     <!-- 设置样式 宽度为屏幕的50%，位置为居中 -->
 
     <h2 style="text-align:center; margin-bottom: 20px">用户登录</h2>
@@ -54,6 +54,29 @@
 
     <div class="form-group">
         <div class="row">
+            <label class="form-label col-md-4">请输入商品详情</label>
+            <div class="col-md-5">
+                <input id="goodsDetail" name="goodsDetail" class="form-control" type="text" placeholder="商品详情"
+                       required="true" minlength="2" maxlength="20"/>
+            </div>
+            <div class="col-md-1">
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="row">
+            <label class="form-label col-md-4">请输入商品价格</label>
+            <div class="col-md-5">
+                <input id="goodsPrice" name="goodsPrice" class="form-control" type="text" placeholder="商品价格" required="true"/>
+            </div>
+            <div class="col-md-1">
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="row">
             <label class="form-label col-md-4">请存入库存数</label>
             <div class="col-md-5">
                 <input id="stock" name="stock" class="form-control" type="text" placeholder="库存数" required="true"/>
@@ -62,6 +85,21 @@
             </div>
         </div>
     </div>
+
+    <div class="form-group">
+        <div class="row">
+            <label class="form-label col-md-4">请输入秒杀价格</label>
+            <div class="col-md-5">
+                <input id="seckillPrice" name="seckillPrice" class="form-control" type="text" placeholder="秒杀价格" required="true"/>
+            </div>
+            <div class="col-md-1">
+            </div>
+        </div>
+    </div>
+
+
+
+
 
     <div class="form-group">
         <div class="row">
@@ -82,18 +120,18 @@
             </div>
         </div>
     </div>
-<!--    <div class="form-group">-->
-<!--        <div class="row">-->
-<!--            <label class="form-label col-md-4">商品图片</label>-->
-<!--            <div class="col-md-5">-->
-<!--                <input id="uploadFile" name="uploadFile" class="form-control" type="file" />-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
+    <div class="form-group">
+        <div class="row">
+            <label class="form-label col-md-4">商品图片</label>
+            <div class="col-md-5">
+                <input id="uploadFile" name="uploadFile" class="form-control" type="file"/>
+            </div>
+        </div>
+    </div>
 
     <div class="row">
         <div class="col-md-5">
-            <button class="btn btn-primary btn-block" type="submit" onclick="save()">保存</button>
+            <button class="btn btn-primary btn-block" type="submit" value="保存"></button>
         </div>
     </div>
 
@@ -112,9 +150,9 @@
 <!--    </form>-->
 <!--</div>-->
 
-<!--<div>-->
-<!--    此处展示上传后的图片：<img th:src="@{/img/{name}(name=${picName})}"/>-->
-<!--</div>-->
+<div>
+    此处展示上传后的图片：<img th:src="@{/img/{name}(name=${picName})}"/>
+</div>
 </body>
 
 
@@ -132,17 +170,20 @@
     function doSave() {
         g_showLoading();
         // var files = $('#uploadFile').prop('files');
-        var data = new FormData();
-        data.append('goodsName', $("#goodsName"));
-        data.append('goodsTitle', $("#goodsTitle"));
-        data.append('startDate', $("#startDate"));
-        data.append('endDate', $("#endDate"));
-        // data.append('uploadFile', files[0]);
-
         $.ajax({
             url: "/goods/insert",
             type: "POST",
-            data: data,
+            data: {
+                goodsName: $("#goodsName").val(),
+                goodsTitle: $("#goodsTitle").val(),
+                goodsDetail: $("#goodsDetail").val(),
+                goodsPrice: $("#goodsPrice").val(),
+                stock: $("#stock").val(),
+                seckillPrice: $("#seckillPrice").val(),
+                startDate: $("#startDate").val(),
+                endDate: $("#endDate").val(),
+                uploadFile: $("#uploadFile").val()
+            },
             success: function (data) {
                 layer.closeAll();
                 // console.log(data);

@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.thymeleaf.context.IWebContext;
 import org.thymeleaf.context.WebContext;
 import org.thymeleaf.spring5.view.ThymeleafViewResolver;
@@ -26,6 +27,16 @@ import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 
@@ -102,15 +113,48 @@ public class GoodsController {
 
 
     @RequestMapping(value = "/insert")
-    @ResponseBody
-    public Result<Integer> insert(@RequestParam String goodsName, @RequestParam String goodsTitle, @RequestParam String startDate, @RequestParam String endDate) {
-//        , @RequestParam("uploadFile") MultipartFile uploadFile
-        System.out.println("goodsName = " + goodsName);
-        System.out.println("goodsTitle = " + goodsTitle);
-        System.out.println("startDate = " + startDate);
-        System.out.println("endDate = " + endDate);
-//        System.out.println(uploadFile.getName());
-        return Result.success(0);
+    public String insert(@RequestParam("goodsName") String goodsName, @RequestParam("goodsTitle") String goodsTitle, @RequestParam("goodsDetail") String goodsDetail,
+                         @RequestParam("goodsPrice") Double goodsPrice, @RequestParam("stock") Integer stock, @RequestParam("seckillPrice") Double seckillPrice,
+                         @RequestParam("startDate") String startDate, @RequestParam("endDate") String endDate, @RequestParam("uploadFile") MultipartFile uploadFile, RedirectAttributes redirectAttributes, Model model) throws Exception {
+
+        // 存储图片到本地
+        String fileName = this.storePic(uploadFile);
+        redirectAttributes.addFlashAttribute("message", "成功上传" + uploadFile.getOriginalFilename() + "!");
+        // 将文件传输成功之后的名字传回界面，用于展示图片
+        model.addAttribute("picName", uploadFile.getOriginalFilename());
+        String goodsImg = "/img/" + fileName;
+
+        goodsService.insert(goodsName, goodsTitle, goodsImg, goodsDetail, goodsPrice, seckillPrice, stock, this.stringToDate(startDate), this.stringToDate(endDate));
+        return "uploadPic";
+
+    }
+
+    private Date stringToDate(String startDate) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date dateTime = null;
+        try {
+            dateTime = simpleDateFormat.parse(startDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return dateTime;
+    }
+
+    private String storePic(MultipartFile file) throws Exception {
+        String filename = org.springframework.util.StringUtils.cleanPath(file.getOriginalFilename());
+        try {
+
+            byte[] bytes = file.getBytes();
+            URL url = this.getClass().getClassLoader().getResource("static/img");
+            Path path = Paths.get(new File(url.toURI()).getAbsolutePath(), file.getOriginalFilename());
+            if (!Files.exists(path)) {
+                Files.createFile(path);
+            }
+            Files.write(path, bytes, StandardOpenOption.TRUNCATE_EXISTING);
+        } catch (IOException e) {
+            throw new Exception("失败！" + filename, e);
+        }
+        return filename;
     }
 
 
