@@ -34,7 +34,7 @@ public class GoodsService {
     }
 
     @Transactional
-    public void insert(String goodsName, String goodsTitle, String goodsImg, String goodsDetail, Double goodsPrice, Double seckillPrice, Integer stock, Date startDate, Date endDate) {
+    public long insert(String goodsName, String goodsTitle, String goodsImg, String goodsDetail, Double goodsPrice, Double seckillPrice, Integer stock, Date startDate, Date endDate) {
         Goods goods = new Goods();
         goods.setGoodsName(goodsName);
         goods.setGoodsTitle(goodsTitle);
@@ -53,6 +53,7 @@ public class GoodsService {
         seckillGoods.setEndDate(endDate);
 
         goodsDao.insertIntoSeckillGoods(seckillGoods);
+        return goods.getId();
 
 
     }

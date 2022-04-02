@@ -58,6 +58,9 @@ public class GoodsController {
     @Autowired
     ThymeleafViewResolver thymeleafViewResolver;
 
+    @Autowired
+    SeckillController seckillController;
+
 
 //    /**
 //     * 这个方法的几个参数以及被封装到UserArgumentResolver中,只需要传入user就行了
@@ -124,7 +127,11 @@ public class GoodsController {
         model.addAttribute("picName", uploadFile.getOriginalFilename());
         String goodsImg = "/img/" + fileName;
 
-        goodsService.insert(goodsName, goodsTitle, goodsImg, goodsDetail, goodsPrice, seckillPrice, stock, this.stringToDate(startDate), this.stringToDate(endDate));
+        Long id = goodsService.insert(goodsName, goodsTitle, goodsImg, goodsDetail, goodsPrice, seckillPrice, stock, this.stringToDate(startDate), this.stringToDate(endDate));
+
+        redisService.set(GoodsKey.getSeckillGoodsStock, "" + id, stock);
+        seckillController.getLocalOverMap().put(id, false);
+
         return "uploadPic";
 
     }

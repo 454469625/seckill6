@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.lucq</groupId>
-    <artifactId>seckill2</artifactId>
+    <artifactId>seckill6</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>seckill6</name>
     <description>Demo project for Spring Boot</description>

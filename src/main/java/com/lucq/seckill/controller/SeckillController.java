@@ -65,9 +65,15 @@ public class SeckillController implements InitializingBean {
     @Autowired
     MQSender mqSender;
 
+
+
     //虽然redis读写很快,但是网络连接也要耗时,所以使用本地map进一步优化
     //key: 商品ID; value: 商品是否已经卖完;
-    private Map<Long, Boolean> localOverMap = new HashMap<>();
+    public Map<Long, Boolean> localOverMap = new HashMap<>();
+    public Map<Long, Boolean> getLocalOverMap() {
+        return localOverMap;
+    }
+
 
     /**
      * 系统初始化,将商品数量加入缓存中,减少数据库访问
