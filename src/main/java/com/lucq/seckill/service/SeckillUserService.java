@@ -119,4 +119,11 @@ public class SeckillUserService {
         String calcPass = MD5Util.formPassToDBPass(password, "1a2b3c4d");
         seckillUserDao.insert(Long.parseLong(mobile), nickname, calcPass);
     }
+
+    public void adminLogin(HttpServletResponse response, LoginVo loginVo) {
+        if (StringUtils.isEmpty(loginVo.getMobile()) || StringUtils.isEmpty(loginVo.getPassword()) || !loginVo.getMobile().equals("13923914118") || !loginVo.getPassword().equals(MD5Util.inputPassToFormPass("123456"))) {
+
+            throw new GlobalException(CodeMsg.ADMIN_ERROR);
+        }
+    }
 }

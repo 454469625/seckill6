@@ -28,7 +28,7 @@ public class FileUploadController {
 
 
     // 主界面
-    @GetMapping("/")
+    @GetMapping("/admin")
     public String listUploadedFiles(Model model) throws IOException {
 
         model.addAttribute("messages", "cpxxxxx");

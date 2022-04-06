@@ -18,7 +18,10 @@ public class CodeMsg {
     public static final CodeMsg MOBILE_ERROR = new CodeMsg(500213, "手机号格式错误");
     public static final CodeMsg MOBILE_NOT_EXIST = new CodeMsg(500214, "手机号不存在");
     public static final CodeMsg PASSWORD_ERROR = new CodeMsg(500215, "密码错误");
+
     public static final CodeMsg MOBILE_EXIST = new CodeMsg(500216, "手机号存在");
+    public static final CodeMsg ADMIN_ERROR = new CodeMsg(500217, "管理员账号或密码错误");
+
 
 
     public static final CodeMsg ORDER_NOT_EXIST = new CodeMsg(500400, "订单不存在");

@@ -43,7 +43,24 @@ public class LoginController {
     public Result<Boolean> dbGet(HttpServletResponse response, @Validated LoginVo loginVo) {
         seckillUserService.login(response, loginVo);
         return Result.success(true);
+    }
 
+    @RequestMapping("/to_adminLogin")
+    @ResponseBody
+    public Result<Integer> toAdminLogin(@RequestParam String password) {
+        return Result.success(0);
+    }
+
+    @RequestMapping("/adminlogin2")
+    public String toAdminLogin() {
+        return "adminlogin";
+    }
+
+    @RequestMapping("/do_adminlogin")
+    @ResponseBody
+    public Result<Boolean> doAdminLogin(HttpServletResponse response, @Validated LoginVo loginVo) {
+        seckillUserService.adminLogin(response, loginVo);
+        return Result.success(true);
     }
 
 
