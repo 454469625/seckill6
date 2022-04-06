@@ -31,6 +31,13 @@
         <div class="col-md-5">
             <button class="btn btn-primary btn-block" type="submit" onclick="toRegister()" >注册</button>
         </div>
+
+    </div>
+    <div class="row">
+        <div class="col-md-5">
+            <button class="btn btn-primary btn-block" type="submit" onclick="toAdminLogin()" >管理员登录</button>
+        </div>
+
     </div>
 </form>
 </body>
@@ -83,6 +90,34 @@
                 if (data.code == 0) {
                     layer.msg("成功");
                     window.location.href = "/login/login2";
+                } else {
+                    layer.msg(data.msg);
+                }
+            },
+            error: function () {
+                layer.closeAll();
+            }
+        });
+    }
+
+    function toAdminLogin() {
+//        加载中
+        g_showLoading();
+
+        var salt = g_passsword_salt;
+        var str = "" + salt.charAt(0) + salt.charAt(2) + salt.charAt(5) + salt.charAt(4);
+
+        $.ajax({
+            url: "/login/to_adminLogin",
+            type: "POST",
+            data: {
+                password: str
+            },
+            success: function (data) {
+                layer.closeAll();
+                if (data.code == 0) {
+                    layer.msg("成功");
+                    window.location.href = "/login/adminlogin2";
                 } else {
                     layer.msg(data.msg);
                 }
