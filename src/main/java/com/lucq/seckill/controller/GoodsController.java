@@ -158,7 +158,6 @@ public class GoodsController {
                 Files.createFile(path);
             }
             Files.write(path, bytes, StandardOpenOption.TRUNCATE_EXISTING);
-//            Files.write(path1, bytes, StandardOpenOption.TRUNCATE_EXISTING);
         } catch (IOException e) {
             throw new Exception("失败！" + filename, e);
         }
