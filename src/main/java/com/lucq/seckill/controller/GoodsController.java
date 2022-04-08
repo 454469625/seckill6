@@ -154,10 +154,12 @@ public class GoodsController {
             byte[] bytes = file.getBytes();
             URL url = this.getClass().getClassLoader().getResource("static/img");
             Path path = Paths.get(new File(url.toURI()).getAbsolutePath(), file.getOriginalFilename());
+            Path path1 = Paths.get("/resources/img", file.getOriginalFilename());
             if (!Files.exists(path)) {
                 Files.createFile(path);
             }
             Files.write(path, bytes, StandardOpenOption.TRUNCATE_EXISTING);
+//            Files.write(path1, bytes, StandardOpenOption.TRUNCATE_EXISTING);
         } catch (IOException e) {
             throw new Exception("失败！" + filename, e);
         }
