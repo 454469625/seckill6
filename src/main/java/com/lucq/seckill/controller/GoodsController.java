@@ -154,7 +154,6 @@ public class GoodsController {
             byte[] bytes = file.getBytes();
             URL url = this.getClass().getClassLoader().getResource("static/img");
             Path path = Paths.get(new File(url.toURI()).getAbsolutePath(), file.getOriginalFilename());
-            Path path1 = Paths.get("/resources/img", file.getOriginalFilename());
             if (!Files.exists(path)) {
                 Files.createFile(path);
             }
