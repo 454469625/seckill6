@@ -1,6 +1,5 @@
 package com.lucq.seckill.service;
 
-import com.lucq.seckill.dao.GoodsDao;
 import com.lucq.seckill.dao.OrderDao;
 import com.lucq.seckill.domain.OrderInfo;
 import com.lucq.seckill.domain.SeckillOrder;
@@ -8,6 +7,7 @@ import com.lucq.seckill.domain.SeckillUser;
 import com.lucq.seckill.redis.OrderKey;
 import com.lucq.seckill.redis.RedisService;
 import com.lucq.seckill.vo.GoodsVo;
+import com.lucq.seckill.vo.OrdersVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -70,5 +70,9 @@ public class OrderService {
 
     public OrderInfo getOrderByOrderId(long orderId) {
         return orderDao.getOrderByOrderId(orderId);
+    }
+
+    public List<OrdersVo> listOrdersVo(long userId) {
+        return orderDao.listOrdersVo(userId);
     }
 }

@@ -3,6 +3,8 @@ package com.lucq.seckill.dao;
 import com.lucq.seckill.domain.OrderInfo;
 import com.lucq.seckill.domain.SeckillOrder;
 import com.lucq.seckill.vo.GoodsVo;
+import com.lucq.seckill.vo.OrderDetailVo;
+import com.lucq.seckill.vo.OrdersVo;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Service;
 
@@ -12,7 +14,10 @@ import java.util.List;
 public interface OrderDao {
 
     @Select("select g.*,sg.stock_count,sg.start_date,sg.end_date,sg.seckill_price from seckill_goods sg left join goods g on sg.goods_id = g.id")
-    public List<GoodsVo> listGoodsVo();
+    List<GoodsVo> listGoodsVo();
+
+    @Select("SELECT g.goods_name, g.goods_img, o.create_date FROM order_info o, goods g WHERE o.user_id = #{userId} and o.goods_id = g.id")
+    List<OrdersVo> listOrdersVo(@Param("userId") long userId);
 
     @Select("select g.*,sg.stock_count,sg.start_date,sg.end_date,sg.seckill_price " +
             "from seckill_goods sg left join goods g on sg.goods_id = g.id" +

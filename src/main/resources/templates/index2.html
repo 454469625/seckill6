@@ -26,7 +26,7 @@
 </head>
 <body>
 <form name="form1" id="form1" method="post">
-    <h1>XXX管理系统</h1>
+    <h1>商品秒杀系统</h1>
     <input class=input_1 id="mobile" name="mobile" type="text" placeholder="手机号码" required="true"
            minlength="11"
            maxlength="11"/>
@@ -88,13 +88,13 @@
         {
             if( list[i].checked == true )
             {
-                //如果选择OA办公登录
+                //如果选择用户登录
                 if(list[i].value=="users")
                 {
                     doLogin();
                     break;
                 }
-                //如果选择登录邮箱
+                //如果选择管理员登录
                 if(list[i].value=="admin")
                 {
                     doAdminLogin();
