@@ -16,7 +16,7 @@ public interface OrderDao {
     @Select("select g.*,sg.stock_count,sg.start_date,sg.end_date,sg.seckill_price from seckill_goods sg left join goods g on sg.goods_id = g.id")
     List<GoodsVo> listGoodsVo();
 
-    @Select("SELECT g.goods_name, g.goods_img, o.create_date FROM order_info o, goods g WHERE o.user_id = #{userId} and o.goods_id = g.id")
+    @Select("SELECT o.id, g.goods_name, g.goods_img, o.create_date FROM order_info o, goods g WHERE o.user_id = #{userId} and o.goods_id = g.id")
     List<OrdersVo> listOrdersVo(@Param("userId") long userId);
 
     @Select("select g.*,sg.stock_count,sg.start_date,sg.end_date,sg.seckill_price " +

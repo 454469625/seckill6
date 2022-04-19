@@ -3,6 +3,7 @@ package com.lucq.seckill.vo;
 import java.util.Date;
 
 public class OrdersVo {
+    private long id;
     private String goodsName;
     private String goodsImg;
     private Date createDate;
@@ -31,8 +32,16 @@ public class OrdersVo {
         this.createDate = createDate;
     }
 
+    public long getId() {
+        return id;
+    }
 
-    public OrdersVo(String goodsName, String goodsImg, Date createDate) {
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public OrdersVo(long id, String goodsName, String goodsImg, Date createDate) {
+        this.id = id;
         this.goodsName = goodsName;
         this.goodsImg = goodsImg;
         this.createDate = createDate;
